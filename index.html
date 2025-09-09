@@ -166,7 +166,7 @@
         <a href="#planos">Planos</a>
         <a href="#galeria">Galeria</a>
         <a href="#faq">Dúvidas</a>
-        <a href="#contato" class="btn brand">Contato</a>
+        <!-- <a href="#contato" class="btn brand">Contato</a> --> <!-- Removido -->
       </div>
     </div>
   </nav>
@@ -505,23 +505,24 @@
 
   <!-- Modal -->
   <dialog id="modal" style="border:none;border-radius:16px;padding:0;background:#0f1424;color:var(--text);width:min(520px,92%);">
-    <form method="dialog" style="padding:18px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <h3 id="modalTitle" style="margin:0">Reserva</h3>
-        <button class="btn" value="cancel">Fechar</button>
-      </div>
-      <p style="color:var(--muted);margin-top:0">Preencha seus dados e retornaremos em minutos.</p>
-      <div style="display:grid;gap:10px">
-        <input id="mNome" placeholder="Seu nome" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#0b1020;color:var(--text)">
-        <input id="mWhats" placeholder="WhatsApp" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#0b1020;color:var(--text)">
-        <input id="mData" type="date" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#0b1020;color:var(--text)">
-      </div>
-      <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:12px">
-        <button class="btn" value="cancel">Cancelar</button>
-        <button class="btn brand" id="mEnviar" value="confirm">Enviar</button>
-      </div>
-    </form>
-  </dialog>
+  <form method="dialog" style="padding:18px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <h3 id="modalTitle" style="margin:0">Reserva</h3>
+      <button class="btn" type="button" id="fecharModal">Fechar</button>
+    </div>
+    <p style="color:var(--muted);margin-top:0">Preencha seus dados e retornaremos em minutos.</p>
+    <div style="display:grid;gap:10px">
+      <input id="mNome" placeholder="Seu nome" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#0b1020;color:var(--text)">
+      <input id="mWhats" placeholder="WhatsApp" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#0b1020;color:var(--text)">
+      <input id="mEmail" type="email" placeholder="E-mail" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#0b1020;color:var(--text)">
+      <input id="mData" type="date" required style="padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#0b1020;color:var(--text)">
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:12px">
+      <button class="btn" value="cancel">Cancelar</button>
+      <button class="btn brand" id="mEnviar" value="confirm">Enviar</button>
+    </div>
+  </form>
+</dialog>
 
   <script>
     // Util: Smooth scroll for anchor links
@@ -580,7 +581,7 @@
       const data=document.getElementById('mData').value;
       if(!nome||!whats||!data){ return; }
       const msg=encodeURIComponent(`Olá! Quero reservar: ${packNome}\nNome: ${nome}\nWhats: ${whats}\nData: ${data}`);
-      window.open(`https://wa.me/5511990000000?text=${msg}`, '_blank');
+      window.open(`https://wa.me/5511976087562?text=${msg}`, '_blank');
     });
 
     // Form orçamento -> WhatsApp
@@ -589,11 +590,12 @@
       e.preventDefault();
       const nome=document.getElementById('nome').value.trim();
       const whats=document.getElementById('whats').value.trim();
+      const email=document.getElementById('email').value.trim();
       const data=document.getElementById('data').value;
       const msg=document.getElementById('msg').value.trim();
-      if(!nome||!whats||!data){ document.getElementById('formMsg').textContent='Preencha nome, WhatsApp e data.'; return; }
-      const q=encodeURIComponent(`Orçamento de som — ${nome}\nWhats: ${whats}\nData: ${data}\nDetalhes: ${msg}`);
-      window.open(`https://wa.me/5511990000000?text=${q}`, '_blank');
+      if(!nome||!whats||!email||!data){ document.getElementById('formMsg').textContent='Preencha nome, WhatsApp, e-mail e data.'; return; }
+      const q=encodeURIComponent(`Orçamento de som — ${nome}\nWhats: ${whats}\nE-mail: ${email}\nData: ${data}\nDetalhes: ${msg}`);
+      window.open(`https://wa.me/5511976087562?text=${q}`, '_blank');
       document.getElementById('formMsg').textContent='Abrimos seu WhatsApp com a mensagem. 😉';
       form.reset();
     });
@@ -603,11 +605,15 @@
     document.addEventListener('click',(e)=>{
       if(e.target.closest('.reservar')){
         const p=e.target.closest('.reservar').dataset.pack;
-        const base='https://wa.me/5511990000000?text=';
+        const base='https://wa.me/5511976087562?text=';
         zap.href = base + encodeURIComponent(`Olá, quero reservar: ${p}`);
       }
+    });
+
+    // Fechar modal ao clicar no botão "Fechar"
+    document.getElementById('fecharModal').addEventListener('click',()=>{
+      document.getElementById('modal').close();
     });
   </script>
 </body>
 </html>
-
